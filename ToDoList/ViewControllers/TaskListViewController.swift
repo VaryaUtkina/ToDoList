@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TaskListViewController: UIViewController {
+final class TaskListViewController: UITableViewController {
     
     private var tasks: [Task] = []
     private let networkManager = NetworkManager.shared
@@ -23,12 +23,25 @@ final class TaskListViewController: UIViewController {
             switch result {
             case .success(let tasks):
                 self.tasks = tasks
+                tableView.reloadData()
             case .failure(let error):
                 print(error)
             }
         }
     }
-
+    
+    // MARK: - UITableViewDataSource
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        tasks.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
+        guard let cell = cell as? TaskTableViewCell else { return UITableViewCell() }
+        let task = tasks[indexPath.row]
+        cell.configure(withTask: task)
+        return cell
+    }
 
 }
 
