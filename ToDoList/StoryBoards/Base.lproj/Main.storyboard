@@ -4,6 +4,8 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -16,91 +18,110 @@
     </customFonts>
     <scenes>
         <!--Задачи-->
-        <scene sceneID="V88-KR-lZ8">
+        <scene sceneID="1RF-LK-pT9">
             <objects>
-                <tableViewController id="lPc-oA-KuX" customClass="TaskListViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="p27-5Y-xr7">
+                <viewController id="Bls-zs-Dki" customClass="TaskListViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="do5-vc-t8e">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" name="ScreenColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskCell" rowHeight="106" id="M7U-3p-FOm" customClass="TaskTableViewCell" customModule="ToDoList" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="50" width="375" height="106"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="M7U-3p-FOm" id="xut-m5-IR0">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="106"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="DE0-sx-tnE">
-                                            <rect key="frame" x="20" y="12.5" width="24" height="23"/>
-                                            <color key="tintColor" name="CustomYellow"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="DE0-sx-tnE" secondAttribute="height" multiplier="1:1" id="OYZ-RY-ztm"/>
-                                                <constraint firstAttribute="width" constant="24" id="sV2-nx-XsW"/>
-                                            </constraints>
-                                        </imageView>
-                                        <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Fvc-SM-LiM">
-                                            <rect key="frame" x="52" y="12" width="287" height="63"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="p27-5Y-xr7">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" name="ScreenColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskCell" rowHeight="106" id="M7U-3p-FOm" customClass="TaskTableViewCell" customModule="ToDoList" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="375" height="106"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="M7U-3p-FOm" id="xut-m5-IR0">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="106"/>
+                                            <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FkO-bN-1kl">
-                                                    <rect key="frame" x="0.0" y="0.0" width="287" height="22"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="DE0-sx-tnE">
+                                                    <rect key="frame" x="20" y="12.5" width="24" height="23"/>
+                                                    <color key="tintColor" name="CustomYellow"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="22" id="X1e-fC-F1I"/>
+                                                        <constraint firstAttribute="width" secondItem="DE0-sx-tnE" secondAttribute="height" multiplier="1:1" id="OYZ-RY-ztm"/>
+                                                        <constraint firstAttribute="width" constant="24" id="sV2-nx-XsW"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="SFProText-Medium" family="SF Pro Text" pointSize="16"/>
-                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                    <state key="normal" title="Title">
-                                                        <color key="titleColor" name="CustomWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="titleButtonTapped" destination="M7U-3p-FOm" eventType="touchUpInside" id="V9J-u5-3ZD"/>
-                                                    </connections>
-                                                </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O3m-0d-XyS">
-                                                    <rect key="frame" x="0.0" y="28" width="287" height="14.5"/>
-                                                    <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="12"/>
-                                                    <color key="textColor" name="CustomWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GSg-oG-ZVI">
-                                                    <rect key="frame" x="0.0" y="48.5" width="287" height="14.5"/>
-                                                    <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="12"/>
-                                                    <color key="textColor" name="CustomWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                </imageView>
+                                                <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Fvc-SM-LiM">
+                                                    <rect key="frame" x="52" y="12" width="287" height="63"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FkO-bN-1kl">
+                                                            <rect key="frame" x="0.0" y="0.0" width="287" height="22"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="22" id="X1e-fC-F1I"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="SFProText-Medium" family="SF Pro Text" pointSize="16"/>
+                                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                            <state key="normal" title="Title">
+                                                                <color key="titleColor" name="CustomWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="titleButtonTapped" destination="M7U-3p-FOm" eventType="touchUpInside" id="V9J-u5-3ZD"/>
+                                                            </connections>
+                                                        </button>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O3m-0d-XyS">
+                                                            <rect key="frame" x="0.0" y="28" width="287" height="14.5"/>
+                                                            <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="12"/>
+                                                            <color key="textColor" name="CustomWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GSg-oG-ZVI">
+                                                            <rect key="frame" x="0.0" y="48.5" width="287" height="14.5"/>
+                                                            <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="12"/>
+                                                            <color key="textColor" name="CustomWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
                                             </subviews>
-                                        </stackView>
-                                    </subviews>
-                                    <color key="backgroundColor" name="ScreenColor"/>
-                                    <constraints>
-                                        <constraint firstItem="DE0-sx-tnE" firstAttribute="top" secondItem="xut-m5-IR0" secondAttribute="top" constant="12" id="0eY-aj-ELB"/>
-                                        <constraint firstItem="Fvc-SM-LiM" firstAttribute="top" secondItem="xut-m5-IR0" secondAttribute="top" constant="12" id="7FY-HK-afu"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="Fvc-SM-LiM" secondAttribute="trailing" constant="20" id="7iC-iO-EXi"/>
-                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Fvc-SM-LiM" secondAttribute="bottom" constant="12" id="CGl-o3-G2Q"/>
-                                        <constraint firstItem="Fvc-SM-LiM" firstAttribute="leading" secondItem="DE0-sx-tnE" secondAttribute="trailing" constant="8" id="TJ0-2y-ERl"/>
-                                        <constraint firstItem="DE0-sx-tnE" firstAttribute="leading" secondItem="xut-m5-IR0" secondAttribute="leading" constant="20" id="TUv-w3-ve6"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="dateLabel" destination="GSg-oG-ZVI" id="uq2-eb-Vf4"/>
-                                    <outlet property="descriptionLabel" destination="O3m-0d-XyS" id="65X-XK-8g3"/>
-                                    <outlet property="statusMarkImage" destination="DE0-sx-tnE" id="ght-mQ-hp0"/>
-                                    <outlet property="titleButton" destination="FkO-bN-1kl" id="cxO-kV-KOJ"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="lPc-oA-KuX" id="S5s-h7-vfl"/>
-                            <outlet property="delegate" destination="lPc-oA-KuX" id="979-EV-ZcT"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Задачи" id="K1e-2S-EEn">
-                        <barButtonItem key="backBarButtonItem" title="Назад" id="sDY-Dw-KGM"/>
+                                            <color key="backgroundColor" name="ScreenColor"/>
+                                            <constraints>
+                                                <constraint firstItem="DE0-sx-tnE" firstAttribute="top" secondItem="xut-m5-IR0" secondAttribute="top" constant="12" id="0eY-aj-ELB"/>
+                                                <constraint firstItem="Fvc-SM-LiM" firstAttribute="top" secondItem="xut-m5-IR0" secondAttribute="top" constant="12" id="7FY-HK-afu"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Fvc-SM-LiM" secondAttribute="trailing" constant="20" id="7iC-iO-EXi"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Fvc-SM-LiM" secondAttribute="bottom" constant="12" id="CGl-o3-G2Q"/>
+                                                <constraint firstItem="Fvc-SM-LiM" firstAttribute="leading" secondItem="DE0-sx-tnE" secondAttribute="trailing" constant="8" id="TJ0-2y-ERl"/>
+                                                <constraint firstItem="DE0-sx-tnE" firstAttribute="leading" secondItem="xut-m5-IR0" secondAttribute="leading" constant="20" id="TUv-w3-ve6"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dateLabel" destination="GSg-oG-ZVI" id="uq2-eb-Vf4"/>
+                                            <outlet property="descriptionLabel" destination="O3m-0d-XyS" id="65X-XK-8g3"/>
+                                            <outlet property="statusMarkImage" destination="DE0-sx-tnE" id="ght-mQ-hp0"/>
+                                            <outlet property="titleButton" destination="FkO-bN-1kl" id="cxO-kV-KOJ"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DBv-J7-y40">
+                                <rect key="frame" x="0.0" y="578" width="375" height="89"/>
+                                <color key="backgroundColor" name="Stroke"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="89" id="GF5-Kj-7wY"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="huH-Up-hru"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="huH-Up-hru" firstAttribute="trailing" secondItem="DBv-J7-y40" secondAttribute="trailing" id="RDv-D0-fZK"/>
+                            <constraint firstItem="DBv-J7-y40" firstAttribute="leading" secondItem="huH-Up-hru" secondAttribute="leading" id="XbF-Mh-p0c"/>
+                            <constraint firstAttribute="bottom" secondItem="DBv-J7-y40" secondAttribute="bottom" id="agq-4m-ONy"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Задачи" id="2sf-Ii-XTJ">
+                        <barButtonItem key="backBarButtonItem" title="Назад" id="DXP-t0-SEW"/>
                     </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PSt-Fe-TYT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                    <connections>
+                        <outlet property="tasksTableView" destination="p27-5Y-xr7" id="nGL-qP-uWi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Q7-eS-awR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1061.5999999999999" y="-31.03448275862069"/>
+            <point key="canvasLocation" x="1042" y="-31"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="n4Y-pw-gMo">
@@ -115,7 +136,7 @@
                         </textAttributes>
                     </navigationBar>
                     <connections>
-                        <segue destination="lPc-oA-KuX" kind="relationship" relationship="rootViewController" id="tOu-Fv-Pv2"/>
+                        <segue destination="Bls-zs-Dki" kind="relationship" relationship="rootViewController" id="2Jv-lN-ykD"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U74-JW-7xB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -134,5 +155,11 @@
         <namedColor name="ScreenColor">
             <color red="0.015686274509803921" green="0.015686274509803921" blue="0.015686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="Stroke">
+            <color red="0.30196078431372547" green="0.33333333333333331" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
