@@ -8,6 +8,9 @@
 import UIKit
 
 final class TaskListViewController: UIViewController {
+    
+    private var tasks: [Task] = []
+    private let networkManager = NetworkManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,20 +18,15 @@ final class TaskListViewController: UIViewController {
     }
     
     private func fetchTasks() {
-        URLSession.shared.dataTask(with: URL(string: "https://dummyjson.com/todos")!) { data, _, error in
-            if let error {
-                print(error.localizedDescription)
+        networkManager.fetchTasks(withURL: URL(string: "https://dummyjson.com/todos")) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success(let tasks):
+                self.tasks = tasks
+            case .failure(let error):
+                print(error)
             }
-            
-            guard let data else {
-                print("No data")
-                return
-            }
-            
-            if let jsonString = String(data: data, encoding: .utf8) {
-                print(jsonString)
-            }
-        }.resume()
+        }
     }
 
 
