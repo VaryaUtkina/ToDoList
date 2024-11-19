@@ -98,9 +98,32 @@
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DBv-J7-y40">
                                 <rect key="frame" x="0.0" y="578" width="375" height="89"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tasks count" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xbB-jJ-aON">
+                                        <rect key="frame" x="156.5" y="15" width="62" height="13.5"/>
+                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="11"/>
+                                        <color key="textColor" name="CustomWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6pU-YK-yVz">
+                                        <rect key="frame" x="307" y="10" width="68" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="6pU-YK-yVz" secondAttribute="height" multiplier="17:7" id="Q4r-Jf-cqn"/>
+                                            <constraint firstAttribute="height" constant="28" id="jik-YT-FFU"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="22"/>
+                                        <color key="tintColor" name="CustomYellow"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="square.and.pencil" catalog="system"/>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" name="Stroke"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="89" id="GF5-Kj-7wY"/>
+                                    <constraint firstItem="xbB-jJ-aON" firstAttribute="centerX" secondItem="DBv-J7-y40" secondAttribute="centerX" id="HEY-ht-5Lw"/>
+                                    <constraint firstItem="6pU-YK-yVz" firstAttribute="top" secondItem="DBv-J7-y40" secondAttribute="top" constant="10" id="cAP-NM-yiG"/>
+                                    <constraint firstAttribute="trailing" secondItem="6pU-YK-yVz" secondAttribute="trailing" id="cTz-Vv-8fj"/>
+                                    <constraint firstItem="xbB-jJ-aON" firstAttribute="top" secondItem="DBv-J7-y40" secondAttribute="top" constant="15" id="ddL-ZV-G3g"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -112,16 +135,19 @@
                             <constraint firstAttribute="bottom" secondItem="DBv-J7-y40" secondAttribute="bottom" id="agq-4m-ONy"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Задачи" id="2sf-Ii-XTJ">
                         <barButtonItem key="backBarButtonItem" title="Назад" id="DXP-t0-SEW"/>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="tasksCountLabel" destination="xbB-jJ-aON" id="aFq-Hb-QwZ"/>
                         <outlet property="tasksTableView" destination="p27-5Y-xr7" id="nGL-qP-uWi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Q7-eS-awR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1042" y="-31"/>
+            <point key="canvasLocation" x="1040.8" y="-31.03448275862069"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="n4Y-pw-gMo">
@@ -146,6 +172,7 @@
     </scenes>
     <resources>
         <image name="circle" catalog="system" width="128" height="123"/>
+        <image name="square.and.pencil" catalog="system" width="128" height="121"/>
         <namedColor name="CustomWhite">
             <color red="0.95686274509803926" green="0.95686274509803926" blue="0.95686274509803926" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

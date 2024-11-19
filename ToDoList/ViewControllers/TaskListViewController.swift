@@ -10,6 +10,11 @@ import UIKit
 final class TaskListViewController: UIViewController {
     
     @IBOutlet var tasksTableView: UITableView!
+    @IBOutlet var tasksCountLabel: UILabel! {
+        didSet {
+            tasksCountLabel.text = "\(tasks.count) Задач"
+        }
+    }
     
     private var tasks: [Task] = []
     private let networkManager = NetworkManager.shared
@@ -26,6 +31,7 @@ final class TaskListViewController: UIViewController {
             switch result {
             case .success(let tasks):
                 self.tasks = tasks
+                tasksCountLabel.text = "\(tasks.count) Задач"
                 tasksTableView.reloadData()
             case .failure(let error):
                 print(error)
