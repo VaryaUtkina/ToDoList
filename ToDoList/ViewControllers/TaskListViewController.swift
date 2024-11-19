@@ -18,6 +18,7 @@ final class TaskListViewController: UIViewController {
     
     private var tasks: [Task] = []
     private let networkManager = NetworkManager.shared
+    private let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     private let searchController = UISearchController(searchResultsController: nil)
     private var filteredTasks: [Task] = []
     private var searchBarIsEmpty: Bool {
@@ -32,6 +33,7 @@ final class TaskListViewController: UIViewController {
         super.viewDidLoad()
         tasksTableView.dataSource = self
         
+        setupBlurEffect()
         setupSearchController()
         fetchTasks()
     }
@@ -48,6 +50,13 @@ final class TaskListViewController: UIViewController {
                 print(error)
             }
         }
+    }
+    
+    private func setupBlurEffect() {
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView.alpha = 0
+        view.addSubview(blurEffectView)
     }
     
     private func setupSearchController() {
@@ -115,3 +124,18 @@ extension TaskListViewController: UISearchResultsUpdating {
         tasksTableView.reloadData()
     }
 }
+
+extension TaskListViewController {
+    func showBlurEffect() {
+        UIView.animate(withDuration: 0.3) {
+            self.blurEffectView.alpha = 1
+        }
+    }
+
+    func hideBlurEffect() {
+        UIView.animate(withDuration: 0.3) {
+            self.blurEffectView.alpha = 0
+        }
+    }
+}
+

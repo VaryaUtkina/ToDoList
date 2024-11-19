@@ -14,12 +14,30 @@ final class TaskTableViewCell: UITableViewCell {
     @IBOutlet var descriptionLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
     
+    var parentViewController: TaskListViewController?
+    
+    private var blurEffectView: UIVisualEffectView?
     private var isCompleted: Bool = false {
         didSet {
             updateUI()
         }
     }
 
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+          super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+          let interaction = UIContextMenuInteraction(delegate: self)
+          self.addInteraction(interaction)
+      }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        let interaction = UIContextMenuInteraction(delegate: self)
+        self.addInteraction(interaction)
+        
+    }
+    
     
     @IBAction func titleButtonTapped() {
         isCompleted.toggle()
@@ -56,5 +74,28 @@ final class TaskTableViewCell: UITableViewCell {
         titleButton.layer.opacity = otherOpacity
         descriptionLabel.layer.opacity = otherOpacity
         dateLabel.layer.opacity = otherOpacity
+    }
+}
+
+extension TaskTableViewCell: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        let editAction = UIAction(title: "Редактировать", image: UIImage(named: "customEdit")) { action in
+            print("Редактировать")
+        }
+        
+        let deleteAction = UIAction(title: "Удалить", image: UIImage(named: "customTrash")) { action in
+            print("Удалить")
+        }
+        
+        let menu = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            return UIMenu(title: "", children: [editAction, deleteAction])
+        }
+        
+        parentViewController?.showBlurEffect()
+        return menu
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, didEndAt location: CGPoint) {
+        parentViewController?.hideBlurEffect()
     }
 }
