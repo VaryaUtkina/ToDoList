@@ -37,7 +37,7 @@ final class TaskListViewController: UIViewController {
         setupSearchController()
         fetchTasks()
     }
-
+    
     private func fetchTasks() {
         networkManager.fetchTasks(withURL: URL(string: "https://dummyjson.com/todos")) { [weak self] result in
             guard let self else { return }
