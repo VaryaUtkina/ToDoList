@@ -18,13 +18,24 @@ final class TaskListViewController: UIViewController {
     
     private var tasks: [Task] = []
     private let networkManager = NetworkManager.shared
+    private let searchController = UISearchController(searchResultsController: nil)
+    private var filteredTasks: [Task] = []
+    private var searchBarIsEmpty: Bool {
+        guard let text = searchController.searchBar.text else { return false }
+        return text.isEmpty
+    }
+    private var isFiltering: Bool {
+        return searchController.isActive && !searchBarIsEmpty
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tasksTableView.dataSource = self
+        
+        setupSearchController()
         fetchTasks()
     }
-    
+
     private func fetchTasks() {
         networkManager.fetchTasks(withURL: URL(string: "https://dummyjson.com/todos")) { [weak self] result in
             guard let self else { return }
@@ -38,20 +49,69 @@ final class TaskListViewController: UIViewController {
             }
         }
     }
+    
+    private func setupSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.barTintColor = .customWhite
+        searchController.searchBar.setShowsCancelButton(false, animated: false)
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        
+        if let textField = searchController.searchBar.value(forKey: "searchField") as? UITextField {
+            textField.font = UIFont(name: "SFProText-Regular", size: 17)
+            textField.textColor = .customWhite
+            
+            let micImage = UIImageView(image: UIImage(systemName: "mic.fill"))
+            micImage.contentMode = .scaleAspectFit
+            micImage.tintColor = .customWhite
+            micImage.layer.opacity = 0.5
+            micImage.translatesAutoresizingMaskIntoConstraints = false
+            
+            searchController.searchBar.addSubview(micImage)
+            
+            NSLayoutConstraint.activate([
+                micImage.trailingAnchor.constraint(equalTo: textField.trailingAnchor, constant: -8),
+                micImage.centerYAnchor.constraint(equalTo: textField.centerYAnchor)
+            ])
+        }
+    }
 }
 
  // MARK: - UITableViewDataSource
 extension TaskListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tasks.count
+        isFiltering ? filteredTasks.count : tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
         guard let cell = cell as? TaskTableViewCell else { return UITableViewCell() }
-        let task = tasks[indexPath.row]
+        let task = isFiltering
+            ? filteredTasks[indexPath.row]
+            : tasks[indexPath.row]
         cell.configure(withTask: task)
         return cell
     }
 }
 
+// MARK: - UISearchResultsUpdating
+extension TaskListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text ?? "")
+    }
+    
+    private func filterContentForSearchText(_ searchText: String) {
+        let lowercasedSearchText = searchText.lowercased()
+        
+        filteredTasks = tasks.filter { task in
+            let titleMatches = task.title.lowercased().contains(lowercasedSearchText)
+            let descriptionMatches = task.description?.lowercased().contains(lowercasedSearchText) ?? false
+            
+            return titleMatches || descriptionMatches
+        }
+        
+        tasksTableView.reloadData()
+    }
+}
