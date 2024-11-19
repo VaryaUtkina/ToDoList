@@ -18,9 +18,9 @@ final class TaskListViewController: UIViewController {
     
     private var tasks: [Task] = []
     private let networkManager = NetworkManager.shared
-    private let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     private let searchController = UISearchController(searchResultsController: nil)
     private var filteredTasks: [Task] = []
+    private var selectedIndexPath: IndexPath?
     private var searchBarIsEmpty: Bool {
         guard let text = searchController.searchBar.text else { return false }
         return text.isEmpty
@@ -32,8 +32,8 @@ final class TaskListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tasksTableView.dataSource = self
+        tasksTableView.delegate = self
         
-        setupBlurEffect()
         setupSearchController()
         fetchTasks()
     }
@@ -50,13 +50,6 @@ final class TaskListViewController: UIViewController {
                 print(error)
             }
         }
-    }
-    
-    private func setupBlurEffect() {
-        blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        blurEffectView.alpha = 0
-        view.addSubview(blurEffectView)
     }
     
     private func setupSearchController() {
@@ -100,8 +93,44 @@ extension TaskListViewController: UITableViewDataSource {
         let task = isFiltering
             ? filteredTasks[indexPath.row]
             : tasks[indexPath.row]
+        cell.setSelected(selectedIndexPath == indexPath)
         cell.configure(withTask: task)
         return cell
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension TaskListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tasksTableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+//        let selectedTask = isFiltering
+//            ? filteredTasks[indexPath.row]
+//            : tasks[indexPath.row]
+        
+        selectedIndexPath = indexPath
+        tasksTableView.reloadRows(at: [indexPath], with: .none)
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            let editAction = UIAction(title: "Редактировать", image: UIImage(named: "customEdit")) { action in
+                print("Редактировать")
+            }
+            
+            let deleteAction = UIAction(title: "Удалить", image: UIImage(named: "customTrash")) { action in
+                print("Удалить")
+            }
+            
+            return UIMenu(title: "", children: [editAction, deleteAction])
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willEndContextMenuInteraction configuration: UIContextMenuConfiguration, animator: (any UIContextMenuInteractionAnimating)?) {
+        if let indexPath = selectedIndexPath {
+            selectedIndexPath = nil
+            tasksTableView.reloadRows(at: [indexPath], with: .none)
+        }
     }
 }
 
@@ -122,20 +151,6 @@ extension TaskListViewController: UISearchResultsUpdating {
         }
         
         tasksTableView.reloadData()
-    }
-}
-
-extension TaskListViewController {
-    func showBlurEffect() {
-        UIView.animate(withDuration: 0.3) {
-            self.blurEffectView.alpha = 1
-        }
-    }
-
-    func hideBlurEffect() {
-        UIView.animate(withDuration: 0.3) {
-            self.blurEffectView.alpha = 0
-        }
     }
 }
 
