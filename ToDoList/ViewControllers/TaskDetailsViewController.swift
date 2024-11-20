@@ -8,6 +8,8 @@
 import UIKit
 
 final class TaskDetailsViewController: UIViewController {
+    
+    weak var delegate: TaskDetailsViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol TaskDetailsViewControllerDelegate: AnyObject {
+    func reloadData()
+}
+
 final class TaskListViewController: UIViewController {
     
     @IBOutlet var tasksTableView: UITableView!
@@ -17,7 +21,9 @@ final class TaskListViewController: UIViewController {
     }
     
     private var tasks: [Task] = []
+    private var taskList: [ToDoTask] = []
     private let networkManager = NetworkManager.shared
+    private let storageManager = StorageManager.shared
     private let searchController = UISearchController(searchResultsController: nil)
     private var filteredTasks: [Task] = []
     private var selectedIndexPath: IndexPath?
@@ -35,7 +41,13 @@ final class TaskListViewController: UIViewController {
         tasksTableView.delegate = self
         
         setupSearchController()
+
         fetchTasks()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let taskDetailsVC = segue.destination as? TaskDetailsViewController else { return }
+        taskDetailsVC.delegate = self
     }
     
     private func fetchTasks() {
@@ -79,6 +91,7 @@ final class TaskListViewController: UIViewController {
             ])
         }
     }
+    
 }
 
  // MARK: - UITableViewDataSource
@@ -151,6 +164,15 @@ extension TaskListViewController: UISearchResultsUpdating {
         }
         
         tasksTableView.reloadData()
+    }
+}
+
+// MARK: - TaskDetailsViewControllerDelegate
+extension TaskListViewController: TaskDetailsViewControllerDelegate {
+    func reloadData() {
+        // fetchTaskList {
+        //    tasksTableView.reloadData()
+        //}
     }
 }
 
