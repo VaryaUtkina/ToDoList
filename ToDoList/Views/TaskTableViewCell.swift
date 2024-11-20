@@ -24,10 +24,10 @@ final class TaskTableViewCell: UITableViewCell {
         isCompleted.toggle()
     }
     
-    func configure(withTask task: Task) {
+    func configure(withTask task: ToDoTask) {
         isCompleted = task.isCompleted
         titleButton.setTitle(task.title, for: .normal)
-        descriptionLabel.text = task.description ?? " "
+        descriptionLabel.text = task.taskDescription ?? " "
         dateLabel.text = task.date?.formatted() ?? " "
         statusMarkImage.preferredSymbolConfiguration = .init(weight: .light)
         updateUI()

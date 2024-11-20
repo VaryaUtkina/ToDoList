@@ -28,14 +28,16 @@ final class StorageManager {
     }
     
     // MARK: - CRUD
-    func create(_ taskTitle: String, _ taskDescription: String?, completion: (ToDoTask) -> Void) {
+    func create(_ taskTitle: String, _ taskDescription: String?, completion: ((ToDoTask) -> Void)? = nil) {
+        print("StorageManager начал сохранение")
         let task = ToDoTask(context: viewContext)
         task.title = taskTitle
         task.taskDescription = taskDescription
         task.date = Date()
         task.isCompleted = false
-        completion(task)
         saveContext()
+        completion?(task)
+        print("StorageManager сохранил")
     }
     
     func fetchData(completion: @escaping(Result<[ToDoTask], Error>) -> Void) {

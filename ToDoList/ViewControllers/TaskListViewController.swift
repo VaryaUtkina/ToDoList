@@ -41,8 +41,8 @@ final class TaskListViewController: UIViewController {
         tasksTableView.delegate = self
         
         setupSearchController()
-
-        fetchTasks()
+        fetchData()
+//        fetchTasks()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -57,6 +57,18 @@ final class TaskListViewController: UIViewController {
             case .success(let tasks):
                 self.tasks = tasks
                 tasksCountLabel.text = "\(tasks.count) Задач"
+                tasksTableView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func fetchData() {
+        storageManager.fetchData { [unowned self] result in
+            switch result {
+            case .success(let tasks):
+                taskList = tasks
                 tasksTableView.reloadData()
             case .failure(let error):
                 print(error)
@@ -97,15 +109,17 @@ final class TaskListViewController: UIViewController {
  // MARK: - UITableViewDataSource
 extension TaskListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        isFiltering ? filteredTasks.count : tasks.count
+//        isFiltering ? filteredTasks.count : tasks.count
+        taskList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
         guard let cell = cell as? TaskTableViewCell else { return UITableViewCell() }
-        let task = isFiltering
-            ? filteredTasks[indexPath.row]
-            : tasks[indexPath.row]
+//        let task = isFiltering
+//            ? filteredTasks[indexPath.row]
+//            : tasks[indexPath.row]
+        let task = taskList[indexPath.row]
         cell.setSelected(selectedIndexPath == indexPath)
         cell.configure(withTask: task)
         return cell
@@ -170,9 +184,15 @@ extension TaskListViewController: UISearchResultsUpdating {
 // MARK: - TaskDetailsViewControllerDelegate
 extension TaskListViewController: TaskDetailsViewControllerDelegate {
     func reloadData() {
-        // fetchTaskList {
-        //    tasksTableView.reloadData()
-        //}
+        storageManager.fetchData { [unowned self] result in
+            switch result {
+            case .success(let tasks):
+                taskList = tasks
+                tasksTableView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 

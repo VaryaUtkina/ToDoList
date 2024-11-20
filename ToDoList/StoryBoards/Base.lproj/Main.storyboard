@@ -29,7 +29,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="p27-5Y-xr7">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="579"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" name="ScreenColor"/>
                                 <prototypes>
@@ -99,7 +99,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DBv-J7-y40">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DBv-J7-y40" userLabel="FooterView">
                                 <rect key="frame" x="0.0" y="578" width="375" height="89"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tasks count" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xbB-jJ-aON">
@@ -136,9 +136,9 @@
                         <viewLayoutGuide key="safeArea" id="huH-Up-hru"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="DBv-J7-y40" secondAttribute="bottom" id="PTp-VA-3MZ"/>
                             <constraint firstItem="huH-Up-hru" firstAttribute="trailing" secondItem="DBv-J7-y40" secondAttribute="trailing" id="RDv-D0-fZK"/>
                             <constraint firstItem="DBv-J7-y40" firstAttribute="leading" secondItem="huH-Up-hru" secondAttribute="leading" id="XbF-Mh-p0c"/>
-                            <constraint firstAttribute="bottom" secondItem="DBv-J7-y40" secondAttribute="bottom" id="agq-4m-ONy"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -199,7 +199,18 @@
                             <constraint firstItem="Q0l-bD-FWN" firstAttribute="leading" secondItem="PAw-IK-snp" secondAttribute="leading" constant="20" id="xV6-bj-Hr9"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="bBE-Ik-ffh"/>
+                    <navigationItem key="navigationItem" id="bBE-Ik-ffh">
+                        <barButtonItem key="rightBarButtonItem" title="Готово" id="ENf-MU-9Oo">
+                            <connections>
+                                <action selector="doneButtonAction:" destination="KhR-Rd-mRE" id="xQf-Il-10z"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="taskDateLabel" destination="903-xb-bS7" id="8eG-56-NtE"/>
+                        <outlet property="taskDescriptionTV" destination="gjo-rR-GJ9" id="8PE-6L-VwG"/>
+                        <outlet property="taskTitleTF" destination="Q0l-bD-FWN" id="nID-qS-NJu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Smd-aR-Azi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
