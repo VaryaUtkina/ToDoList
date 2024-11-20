@@ -21,6 +21,7 @@ final class TaskDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.overrideUserInterfaceStyle = .dark
         navigationController?.navigationBar.tintColor = .customYellow
         setupUI()
     }

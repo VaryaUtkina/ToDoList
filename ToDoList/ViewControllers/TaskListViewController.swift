@@ -13,10 +13,11 @@ protocol TaskDetailsViewControllerDelegate: AnyObject {
 
 final class TaskListViewController: UIViewController {
     
+    // MARK: - IB Outlets
     @IBOutlet var tasksTableView: UITableView!
     @IBOutlet var tasksCountLabel: UILabel!
     
-    private var tasks: [Task] = []
+    // MARK: - Private Properties
     private var taskList: [ToDoTask] = [] {
         didSet {
             updateTasksCountLabel()
@@ -27,7 +28,7 @@ final class TaskListViewController: UIViewController {
     private let dataManager = DataManager.shared
     
     private let searchController = UISearchController(searchResultsController: nil)
-    private var filteredTasks: [Task] = []
+    private var filteredTaskList: [ToDoTask] = []
     private var selectedIndexPath: IndexPath?
     private var searchBarIsEmpty: Bool {
         guard let text = searchController.searchBar.text else { return false }
@@ -36,18 +37,23 @@ final class TaskListViewController: UIViewController {
     private var isFiltering: Bool {
         return searchController.isActive && !searchBarIsEmpty
     }
-
+    
+    // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         tasksTableView.dataSource = self
         tasksTableView.delegate = self
         
+        overrideUserInterfaceStyle = .dark
+        navigationController?.overrideUserInterfaceStyle = .dark
+        
         setupSearchController()
-        createTempData { [unowned self] in 
+        createTempData { [unowned self] in
             fetchData()
         }
     }
     
+    // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let taskDetailsVC = segue.destination as? TaskDetailsViewController else { return }
         taskDetailsVC.delegate = self
@@ -55,6 +61,7 @@ final class TaskListViewController: UIViewController {
         taskDetailsVC.task = task
     }
     
+    // MARK: - Private Methods
     private func createTempData(completion: @escaping() -> Void) {
         if !UserDefaults.standard.bool(forKey: "done") {
             dataManager.createTempData {
@@ -91,6 +98,10 @@ final class TaskListViewController: UIViewController {
             textField.font = UIFont(name: "SFProText-Regular", size: 17)
             textField.textColor = .customWhite
             
+            if let clearButton = textField.value(forKey: "clearButton") as? UIButton {
+                clearButton.isHidden = true // Или clearButton.setImage(nil, for: .normal) чтобы визуально убрать крестик.
+            }
+            
             let micImage = UIImageView(image: UIImage(systemName: "mic.fill"))
             micImage.contentMode = .scaleAspectFit
             micImage.tintColor = .customWhite
@@ -114,17 +125,15 @@ final class TaskListViewController: UIViewController {
  // MARK: - UITableViewDataSource
 extension TaskListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        isFiltering ? filteredTasks.count : tasks.count
-        taskList.count
+        isFiltering ? filteredTaskList.count : taskList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
         guard let cell = cell as? TaskTableViewCell else { return UITableViewCell() }
-//        let task = isFiltering
-//            ? filteredTasks[indexPath.row]
-//            : tasks[indexPath.row]
-        let task = taskList[indexPath.row]
+        let task = isFiltering
+            ? filteredTaskList[indexPath.row]
+            : taskList[indexPath.row]
         cell.setSelected(selectedIndexPath == indexPath)
         cell.configure(withTask: task)
         return cell
@@ -138,10 +147,6 @@ extension TaskListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-//        let selectedTask = isFiltering
-//            ? filteredTasks[indexPath.row]
-//            : tasks[indexPath.row]
-        
         selectedIndexPath = indexPath
         tasksTableView.reloadRows(at: [indexPath], with: .none)
         
@@ -178,11 +183,11 @@ extension TaskListViewController: UISearchResultsUpdating {
     private func filterContentForSearchText(_ searchText: String) {
         let lowercasedSearchText = searchText.lowercased()
         
-        filteredTasks = tasks.filter { task in
-            let titleMatches = task.title.lowercased().contains(lowercasedSearchText)
-            let descriptionMatches = task.description?.lowercased().contains(lowercasedSearchText) ?? false
+        filteredTaskList = taskList.filter { task in
+            let titleMatches = task.title?.lowercased().contains(lowercasedSearchText)
+            let descriptionMatches = task.taskDescription?.lowercased().contains(lowercasedSearchText) ?? false
             
-            return titleMatches || descriptionMatches
+            return titleMatches ?? false || descriptionMatches
         }
         
         tasksTableView.reloadData()
