@@ -29,7 +29,6 @@ final class StorageManager {
     
     // MARK: - CRUD
     func create(_ taskTitle: String, _ taskDescription: String?, completion: ((ToDoTask) -> Void)? = nil) {
-        print("StorageManager начал сохранение")
         let task = ToDoTask(context: viewContext)
         task.title = taskTitle
         task.taskDescription = taskDescription
@@ -37,7 +36,6 @@ final class StorageManager {
         task.isCompleted = false
         saveContext()
         completion?(task)
-        print("StorageManager сохранил")
     }
     
     func fetchData(completion: @escaping(Result<[ToDoTask], Error>) -> Void) {
@@ -51,6 +49,17 @@ final class StorageManager {
         } catch {
             completion(.failure(error))
         }
+    }
+    
+    func update(_ task: ToDoTask, withNewTitle title: String, AndNewDescription description: String) {
+        task.title = title
+        task.taskDescription = description
+        saveContext()
+    }
+    
+    func delete(_ task: ToDoTask) {
+        viewContext.delete(task)
+        saveContext()
     }
     
     // MARK: - Core Data Saving support
