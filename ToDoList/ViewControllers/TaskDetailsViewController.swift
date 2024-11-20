@@ -13,14 +13,16 @@ final class TaskDetailsViewController: UIViewController {
     @IBOutlet var taskDescriptionTV: UITextView!
     @IBOutlet var taskDateLabel: UILabel!
     
+    var task: ToDoTask?
+    
     weak var delegate: TaskDetailsViewControllerDelegate?
     private let storageManager = StorageManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        taskDateLabel.text = Date().formatted()
         navigationController?.navigationBar.tintColor = .customYellow
+        setupUI()
     }
     
     @IBAction func doneButtonAction(_ sender: UIBarButtonItem) {
@@ -31,9 +33,15 @@ final class TaskDetailsViewController: UIViewController {
             showAlert()
             return
         }
-        
-        print("Creating task with title: \(title) and description: \(taskDescriptionTV.text ?? "")")
-        storageManager.create(title, taskDescriptionTV.text)
+        if let task {
+            storageManager.update(
+                task,
+                withNewTitle: title,
+                AndNewDescription: taskDescriptionTV.text
+            )
+        } else {
+            storageManager.create(title, taskDescriptionTV.text)
+        }
         delegate?.reloadData()
         if let navigationController = navigationController {
             navigationController.popViewController(animated: true)
@@ -51,5 +59,17 @@ final class TaskDetailsViewController: UIViewController {
         present(alert, animated: true) { [unowned self] in
             taskTitleTF.becomeFirstResponder()
         }
+    }
+    
+    private func formattedDate(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yy"
+        return dateFormatter.string(from: date)
+    }
+    
+    private func setupUI() {
+        taskTitleTF.text = task?.title
+        taskDateLabel.text = formattedDate(task?.date ?? Date())
+        taskDescriptionTV.text = task?.taskDescription
     }
 }

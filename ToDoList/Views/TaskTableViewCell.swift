@@ -28,7 +28,7 @@ final class TaskTableViewCell: UITableViewCell {
         isCompleted = task.isCompleted
         titleButton.setTitle(task.title, for: .normal)
         descriptionLabel.text = task.taskDescription ?? " "
-        dateLabel.text = task.date?.formatted() ?? " "
+        dateLabel.text = formattedDate(task.date)
         statusMarkImage.preferredSymbolConfiguration = .init(weight: .light)
         updateUI()
     }
@@ -60,5 +60,12 @@ final class TaskTableViewCell: UITableViewCell {
         titleButton.layer.opacity = otherOpacity
         descriptionLabel.layer.opacity = otherOpacity
         dateLabel.layer.opacity = otherOpacity
+    }
+    
+    private func formattedDate(_ date: Date?) -> String {
+        guard let date else { return "" }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yy"
+        return dateFormatter.string(from: date)
     }
 }

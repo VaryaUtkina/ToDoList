@@ -14,14 +14,14 @@ protocol TaskDetailsViewControllerDelegate: AnyObject {
 final class TaskListViewController: UIViewController {
     
     @IBOutlet var tasksTableView: UITableView!
-    @IBOutlet var tasksCountLabel: UILabel! {
-        didSet {
-            tasksCountLabel.text = "\(tasks.count) Задач"
-        }
-    }
+    @IBOutlet var tasksCountLabel: UILabel!
     
     private var tasks: [Task] = []
-    private var taskList: [ToDoTask] = []
+    private var taskList: [ToDoTask] = [] {
+        didSet {
+            updateTasksCountLabel()
+        }
+    }
     private let networkManager = NetworkManager.shared
     private let storageManager = StorageManager.shared
     private let searchController = UISearchController(searchResultsController: nil)
@@ -48,6 +48,8 @@ final class TaskListViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let taskDetailsVC = segue.destination as? TaskDetailsViewController else { return }
         taskDetailsVC.delegate = self
+        guard let task = sender as? ToDoTask else { return }
+        taskDetailsVC.task = task
     }
     
     private func fetchTasks() {
@@ -104,6 +106,9 @@ final class TaskListViewController: UIViewController {
         }
     }
     
+    private func updateTasksCountLabel() {
+        tasksCountLabel.text = "\(taskList.count) Задач"
+    }
 }
 
  // MARK: - UITableViewDataSource
@@ -141,12 +146,15 @@ extension TaskListViewController: UITableViewDelegate {
         tasksTableView.reloadRows(at: [indexPath], with: .none)
         
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-            let editAction = UIAction(title: "Редактировать", image: UIImage(named: "customEdit")) { action in
-                print("Редактировать")
+            let editAction = UIAction(title: "Редактировать", image: UIImage(named: "customEdit")) { [unowned self] action in
+                let task = taskList[indexPath.row]
+                performSegue(withIdentifier: "ShowTask", sender: task)
             }
             
-            let deleteAction = UIAction(title: "Удалить", image: UIImage(named: "customTrash")) { action in
-                print("Удалить")
+            let deleteAction = UIAction(title: "Удалить", image: UIImage(named: "customTrash")) { [unowned self] action in
+                let task = taskList.remove(at: indexPath.row)
+                tasksTableView.deleteRows(at: [indexPath], with: .automatic)
+                storageManager.delete(task)
             }
             
             return UIMenu(title: "", children: [editAction, deleteAction])
