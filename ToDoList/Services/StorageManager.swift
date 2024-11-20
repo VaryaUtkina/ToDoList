@@ -28,14 +28,13 @@ final class StorageManager {
     }
     
     // MARK: - CRUD
-    func create(_ taskTitle: String, _ taskDescription: String?, completion: ((ToDoTask) -> Void)? = nil) {
+    func create(_ taskTitle: String, _ taskDescription: String?) {
         let task = ToDoTask(context: viewContext)
         task.title = taskTitle
         task.taskDescription = taskDescription
         task.date = Date()
         task.isCompleted = false
         saveContext()
-        completion?(task)
     }
     
     func fetchData(completion: @escaping(Result<[ToDoTask], Error>) -> Void) {
@@ -43,8 +42,9 @@ final class StorageManager {
         
         do {
             let tasks = try viewContext.fetch(fetchRequest)
+            let sortedTasks = tasks.sorted { $0.date ?? Date() > $1.date ?? Date() }
             DispatchQueue.main.async {
-                completion(.success(tasks))
+                completion(.success(sortedTasks))
             }
         } catch {
             completion(.failure(error))
@@ -59,6 +59,17 @@ final class StorageManager {
     
     func delete(_ task: ToDoTask) {
         viewContext.delete(task)
+        saveContext()
+    }
+    
+    func save(_ tasks: [Task]) {
+        tasks.forEach { task in
+            let toDoTask = ToDoTask(context: viewContext)
+            toDoTask.title = task.title
+            toDoTask.taskDescription = task.description
+            toDoTask.date = task.date ?? Date()
+            toDoTask.isCompleted = task.isCompleted
+        }
         saveContext()
     }
     

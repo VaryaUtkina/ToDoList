@@ -24,6 +24,8 @@ final class TaskListViewController: UIViewController {
     }
     private let networkManager = NetworkManager.shared
     private let storageManager = StorageManager.shared
+    private let dataManager = DataManager.shared
+    
     private let searchController = UISearchController(searchResultsController: nil)
     private var filteredTasks: [Task] = []
     private var selectedIndexPath: IndexPath?
@@ -41,8 +43,9 @@ final class TaskListViewController: UIViewController {
         tasksTableView.delegate = self
         
         setupSearchController()
-        fetchData()
-//        fetchTasks()
+        createTempData { [unowned self] in 
+            fetchData()
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -52,17 +55,14 @@ final class TaskListViewController: UIViewController {
         taskDetailsVC.task = task
     }
     
-    private func fetchTasks() {
-        networkManager.fetchTasks(withURL: URL(string: "https://dummyjson.com/todos")) { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case .success(let tasks):
-                self.tasks = tasks
-                tasksCountLabel.text = "\(tasks.count) Задач"
-                tasksTableView.reloadData()
-            case .failure(let error):
-                print(error)
+    private func createTempData(completion: @escaping() -> Void) {
+        if !UserDefaults.standard.bool(forKey: "done") {
+            dataManager.createTempData {
+                UserDefaults.standard.set(true, forKey: "done")
+                completion()
             }
+        } else {
+            completion()
         }
     }
     
@@ -195,7 +195,7 @@ extension TaskListViewController: TaskDetailsViewControllerDelegate {
         storageManager.fetchData { [unowned self] result in
             switch result {
             case .success(let tasks):
-                taskList = tasks
+                taskList = tasks.sorted { $0.date ?? Date() > $1.date ?? Date() }
                 tasksTableView.reloadData()
             case .failure(let error):
                 print(error)
