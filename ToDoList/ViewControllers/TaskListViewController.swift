@@ -18,7 +18,7 @@ final class TaskListViewController: UIViewController {
     @IBOutlet var tasksCountLabel: UILabel!
     
     // MARK: - Private Properties
-    private var taskList: [ToDoTask] = [] {
+    private(set) var taskList: [ToDoTask] = [] {
         didSet {
             updateTasksCountLabel()
         }
@@ -74,11 +74,14 @@ final class TaskListViewController: UIViewController {
     }
     
     private func fetchData() {
-        storageManager.fetchData { [unowned self] result in
+        storageManager.fetchData { [weak self] result in
+            guard let self else { return }
             switch result {
             case .success(let tasks):
                 taskList = tasks
-                tasksTableView.reloadData()
+                DispatchQueue.main.async {
+                    self.tasksTableView.reloadData()
+                }
             case .failure(let error):
                 print(error)
             }
