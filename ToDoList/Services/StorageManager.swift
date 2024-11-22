@@ -51,7 +51,7 @@ final class StorageManager {
         }
     }
     
-    func update(_ task: ToDoTask, withNewTitle title: String, AndNewDescription description: String) {
+    func update(_ task: ToDoTask, withNewTitle title: String, AndNewDescription description: String?) {
         task.title = title
         task.taskDescription = description
         saveContext()
