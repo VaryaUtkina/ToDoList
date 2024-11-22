@@ -31,16 +31,15 @@ final class TaskDetailsViewController: UIViewController {
     var configurator: TaskDetailsConfiguratorInputProtocol = TaskDetailsConfigurator()
     
     weak var delegate: TaskDetailsViewControllerDelegate?
-    private let storageManager = StorageManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configurator.configure(with: self, and: task)
+        presenter.showTask()
         
         navigationController?.overrideUserInterfaceStyle = .dark
         navigationController?.navigationBar.tintColor = .customYellow
-        presenter.showTask()
     }
     
     @IBAction func doneButtonAction(_ sender: UIBarButtonItem) {

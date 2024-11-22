@@ -11,14 +11,28 @@ protocol TaskDetailsViewControllerDelegate: AnyObject {
     func reloadData()
 }
 
+protocol TaskListViewInputProtocol: AnyObject {
+    func display(tasks: [ToDoTask])
+}
+
+protocol TaskListViewOutputProtocol {
+    init(view: TaskListViewInputProtocol)
+    func viewDidLoad()
+}
+
 final class TaskListViewController: UIViewController {
     
     // MARK: - IB Outlets
     @IBOutlet var tasksTableView: UITableView!
     @IBOutlet var tasksCountLabel: UILabel!
     
+    
+    // MARK: - Public Properties
+    var presenter: TaskListViewOutputProtocol!
+    
     // MARK: - Private Properties
-    private(set) var taskList: [ToDoTask] = [] {
+    private let configurator: TaskListConfiguratorInputProtocol = TaskListConfigurator()
+    private var taskList: [ToDoTask] = [] {
         didSet {
             updateTasksCountLabel()
         }
@@ -41,16 +55,23 @@ final class TaskListViewController: UIViewController {
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        configurator.configure(withView: self)
+        
         tasksTableView.dataSource = self
         tasksTableView.delegate = self
         
         overrideUserInterfaceStyle = .dark
         navigationController?.overrideUserInterfaceStyle = .dark
         
+        presenter.viewDidLoad()
+        
         setupSearchController()
-        createTempData { [unowned self] in
-            fetchData()
-        }
+        
+        // TODO: - delete
+//        createTempData { [unowned self] in
+//            fetchData()
+//        }
     }
     
     // MARK: - Navigation
@@ -73,6 +94,7 @@ final class TaskListViewController: UIViewController {
         }
     }
     
+    // TODO: - delete
     private func fetchData() {
         storageManager.fetchData { [weak self] result in
             guard let self else { return }
@@ -210,5 +232,14 @@ extension TaskListViewController: TaskDetailsViewControllerDelegate {
             }
         }
     }
+}
+
+// MARK: - TaskListViewInputProtocol
+extension TaskListViewController: TaskListViewInputProtocol {
+    func display(tasks: [ToDoTask]) {
+        taskList = tasks
+        tasksTableView.reloadData()
+    }
+    
 }
 
