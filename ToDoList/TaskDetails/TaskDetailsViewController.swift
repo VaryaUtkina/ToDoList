@@ -61,7 +61,8 @@ final class TaskDetailsViewController: UIViewController {
         )
         let okAction = UIAlertAction(title: "OK", style: .default)
         alert.addAction(okAction)
-        present(alert, animated: true) { [unowned self] in
+        present(alert, animated: true) { [weak self] in
+            guard let self else { return }
             taskTitleTF.becomeFirstResponder()
         }
     }
