@@ -14,6 +14,7 @@ final class TaskCell: UITableViewCell {
     @IBOutlet var descriptionLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
     
+    private var currentTask: ToDoTask? = nil
     private var isCompleted: Bool = false {
         didSet {
             updateUI()
@@ -22,9 +23,12 @@ final class TaskCell: UITableViewCell {
     
     @IBAction func titleButtonTapped() {
         isCompleted.toggle()
+        guard let task = currentTask else { return }
+        StorageManager.shared.update(task, withNewStatus: isCompleted)
     }
     
     func configure(withTask task: ToDoTask) {
+        currentTask = task
         isCompleted = task.isCompleted
         titleButton.setTitle(task.title, for: .normal)
         descriptionLabel.text = task.taskDescription ?? " "

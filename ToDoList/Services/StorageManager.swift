@@ -57,6 +57,11 @@ final class StorageManager {
         saveContext()
     }
     
+    func update(_ task: ToDoTask, withNewStatus status: Bool) {
+        task.isCompleted = status
+        saveContext()
+    }
+    
     func delete(_ task: ToDoTask) {
         viewContext.delete(task)
         saveContext()
