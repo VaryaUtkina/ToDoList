@@ -11,27 +11,13 @@ protocol TaskDetailsViewControllerDelegate: AnyObject {
     func reloadData()
 }
 
-protocol TaskListViewInputProtocol: AnyObject {
-    func display(tasks: [ToDoTask])
-}
-
-protocol TaskListViewOutputProtocol {
-    init(view: TaskListViewInputProtocol)
-    func viewDidLoad()
-}
-
 final class TaskListViewController: UIViewController {
     
     // MARK: - IB Outlets
     @IBOutlet var tasksTableView: UITableView!
     @IBOutlet var tasksCountLabel: UILabel!
     
-    
-    // MARK: - Public Properties
-    var presenter: TaskListViewOutputProtocol!
-    
     // MARK: - Private Properties
-    private let configurator: TaskListConfiguratorInputProtocol = TaskListConfigurator()
     private var taskList: [ToDoTask] = [] {
         didSet {
             updateTasksCountLabel()
@@ -56,22 +42,16 @@ final class TaskListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configurator.configure(withView: self)
-        
         tasksTableView.dataSource = self
         tasksTableView.delegate = self
         
         overrideUserInterfaceStyle = .dark
         navigationController?.overrideUserInterfaceStyle = .dark
         
-        presenter.viewDidLoad()
-        
         setupSearchController()
-        
-        // TODO: - delete
-//        createTempData { [unowned self] in
-//            fetchData()
-//        }
+        createTempData { [unowned self] in
+            fetchData()
+        }
     }
     
     // MARK: - Navigation
@@ -94,7 +74,6 @@ final class TaskListViewController: UIViewController {
         }
     }
     
-    // TODO: - delete
     private func fetchData() {
         storageManager.fetchData { [weak self] result in
             guard let self else { return }
@@ -124,7 +103,7 @@ final class TaskListViewController: UIViewController {
             textField.textColor = .customWhite
             
             if let clearButton = textField.value(forKey: "clearButton") as? UIButton {
-                clearButton.isHidden = true // Или clearButton.setImage(nil, for: .normal) чтобы визуально убрать крестик.
+                clearButton.isHidden = true
             }
             
             let micImage = UIImageView(image: UIImage(systemName: "mic.fill"))
@@ -233,13 +212,3 @@ extension TaskListViewController: TaskDetailsViewControllerDelegate {
         }
     }
 }
-
-// MARK: - TaskListViewInputProtocol
-extension TaskListViewController: TaskListViewInputProtocol {
-    func display(tasks: [ToDoTask]) {
-        taskList = tasks
-        tasksTableView.reloadData()
-    }
-    
-}
-
