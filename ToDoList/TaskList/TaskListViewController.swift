@@ -134,7 +134,7 @@ extension TaskListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
-        guard let cell = cell as? TaskTableViewCell else { return UITableViewCell() }
+        guard let cell = cell as? TaskCell else { return UITableViewCell() }
         let task = isFiltering
             ? filteredTaskList[indexPath.row]
             : taskList[indexPath.row]

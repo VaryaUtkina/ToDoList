@@ -1,5 +1,5 @@
 //
-//  TaskTableViewCell.swift
+//  TaskCell.swift
 //  ToDoList
 //
 //  Created by Варвара Уткина on 18.11.2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TaskTableViewCell: UITableViewCell {
+final class TaskCell: UITableViewCell {
     
     @IBOutlet var statusMarkImage: UIImageView!
     @IBOutlet var titleButton: UIButton!
