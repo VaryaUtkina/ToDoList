@@ -11,7 +11,7 @@ This project was developed as a test task for the [Effective Mobile](https://eff
 <p>Data is saved locally using <b>CoreData</b>. In the application, you can mark completed tasks, in which case they are marked with a check mark, and their title is crossed out. Functions for adding new tasks, editing and deleting existing ones are also available. A search for tasks by their titles and descriptions is implemented.
 </p>
 <video controls width="600">
-  <source src="ToDoList/ToDoList_Effective_Mobile.MOV" type="video/mp4">
+  <source src="ToDoList_Effective_Mobile.mp4" type="video/mp4">
   Ваш браузер не поддерживает видео.
 </video>
 
