@@ -147,6 +147,7 @@ extension TaskListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension TaskListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        searchController.searchBar.resignFirstResponder()
         tasksTableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -195,6 +196,13 @@ extension TaskListViewController: UISearchResultsUpdating {
         }
         
         tasksTableView.reloadData()
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+extension TaskListViewController: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchController.searchBar.resignFirstResponder()
     }
 }
 
