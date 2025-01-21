@@ -56,10 +56,10 @@ final class TaskListViewController: UIViewController {
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let taskDetailsVC = segue.destination as? TaskDetailsViewController else { return }
-        taskDetailsVC.delegate = self
-        guard let task = sender as? ToDoTask else { return }
-        taskDetailsVC.task = task
+//        guard let taskDetailsVC = segue.destination as? TaskDetailsViewController else { return }
+//        taskDetailsVC.delegate = self
+//        guard let task = sender as? ToDoTask else { return }
+//        taskDetailsVC.task = task
     }
     
     // MARK: - Private Methods
@@ -158,7 +158,11 @@ extension TaskListViewController: UITableViewDelegate {
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             let editAction = UIAction(title: "Редактировать", image: UIImage(named: "customEdit")) { [unowned self] action in
                 let task = taskList[indexPath.row]
-                performSegue(withIdentifier: "ShowTask", sender: task)
+                let taskDetailsVC = TaskDetailsViewController()
+                taskDetailsVC.task = task
+                taskDetailsVC.delegate = self
+                navigationController?.pushViewController(taskDetailsVC, animated: true)
+//                performSegue(withIdentifier: "ShowTask", sender: task)
             }
             
             let deleteAction = UIAction(title: "Удалить", image: UIImage(named: "customTrash")) { [unowned self] action in

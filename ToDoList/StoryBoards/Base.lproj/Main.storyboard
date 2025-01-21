@@ -9,9 +9,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="SFProText-Bold.ttf">
-            <string>SFProText-Bold</string>
-        </array>
         <array key="SFProText-Medium.ttf">
             <string>SFProText-Medium</string>
         </array>
@@ -118,9 +115,6 @@
                                         <color key="tintColor" name="CustomYellow"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" image="square.and.pencil" catalog="system"/>
-                                        <connections>
-                                            <segue destination="KhR-Rd-mRE" kind="show" identifier="ShowTask" id="hMX-w5-sfg"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" name="Stroke"/>
@@ -154,67 +148,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Q7-eS-awR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1040.8" y="-31.03448275862069"/>
-        </scene>
-        <!--Task Details View Controller-->
-        <scene sceneID="IvR-Gl-YMX">
-            <objects>
-                <viewController id="KhR-Rd-mRE" customClass="TaskDetailsViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="a2l-uR-G5o">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Новая задача" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q0l-bD-FWN">
-                                <rect key="frame" x="20" y="116" width="335" height="42.5"/>
-                                <color key="backgroundColor" name="ScreenColor"/>
-                                <color key="textColor" name="CustomWhite"/>
-                                <fontDescription key="fontDescription" name="SFProText-Bold" family="SF Pro Text" pointSize="34"/>
-                                <textInputTraits key="textInputTraits" keyboardAppearance="alert"/>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Дата" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="903-xb-bS7">
-                                <rect key="frame" x="20" y="166.5" width="335" height="14"/>
-                                <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="12"/>
-                                <color key="textColor" name="CustomWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gjo-rR-GJ9">
-                                <rect key="frame" x="20" y="196.5" width="335" height="470.5"/>
-                                <color key="backgroundColor" name="ScreenColor"/>
-                                <color key="textColor" name="CustomWhite"/>
-                                <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="16"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
-                            </textView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="PAw-IK-snp"/>
-                        <color key="backgroundColor" name="ScreenColor"/>
-                        <constraints>
-                            <constraint firstItem="Q0l-bD-FWN" firstAttribute="top" secondItem="PAw-IK-snp" secondAttribute="top" id="6FV-mq-1MR"/>
-                            <constraint firstItem="PAw-IK-snp" firstAttribute="trailing" secondItem="903-xb-bS7" secondAttribute="trailing" constant="20" id="R6l-V2-8Tq"/>
-                            <constraint firstItem="gjo-rR-GJ9" firstAttribute="top" secondItem="903-xb-bS7" secondAttribute="bottom" constant="16" id="TQt-2x-9eM"/>
-                            <constraint firstAttribute="bottom" secondItem="gjo-rR-GJ9" secondAttribute="bottom" id="VZf-V7-xhv"/>
-                            <constraint firstItem="PAw-IK-snp" firstAttribute="trailing" secondItem="gjo-rR-GJ9" secondAttribute="trailing" constant="20" id="Zsp-p6-nMY"/>
-                            <constraint firstItem="gjo-rR-GJ9" firstAttribute="leading" secondItem="PAw-IK-snp" secondAttribute="leading" constant="20" id="ahh-CR-zZN"/>
-                            <constraint firstItem="903-xb-bS7" firstAttribute="top" secondItem="Q0l-bD-FWN" secondAttribute="bottom" constant="8" id="iKd-H6-TDc"/>
-                            <constraint firstItem="PAw-IK-snp" firstAttribute="trailing" secondItem="Q0l-bD-FWN" secondAttribute="trailing" constant="20" id="nOm-NO-Az1"/>
-                            <constraint firstItem="903-xb-bS7" firstAttribute="leading" secondItem="PAw-IK-snp" secondAttribute="leading" constant="20" id="wGx-c8-Psa"/>
-                            <constraint firstItem="Q0l-bD-FWN" firstAttribute="leading" secondItem="PAw-IK-snp" secondAttribute="leading" constant="20" id="xV6-bj-Hr9"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="bBE-Ik-ffh">
-                        <barButtonItem key="rightBarButtonItem" title="Готово" id="ENf-MU-9Oo">
-                            <connections>
-                                <action selector="doneButtonAction:" destination="KhR-Rd-mRE" id="xQf-Il-10z"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="taskDateLabel" destination="903-xb-bS7" id="8eG-56-NtE"/>
-                        <outlet property="taskDescriptionTV" destination="gjo-rR-GJ9" id="8PE-6L-VwG"/>
-                        <outlet property="taskTitleTF" destination="Q0l-bD-FWN" id="nID-qS-NJu"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Smd-aR-Azi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1800.8" y="-31.03448275862069"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="n4Y-pw-gMo">
