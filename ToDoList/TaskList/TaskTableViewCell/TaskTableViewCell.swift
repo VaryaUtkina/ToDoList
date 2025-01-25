@@ -7,16 +7,15 @@
 
 import UIKit
 
+import UIKit
+
 final class TaskTableViewCell: UITableViewCell {
-    // вычисление размеров ячейки
-    override var intrinsicContentSize: CGSize {
-        let size = cellStackView.sizeThatFits(CGSize(width: contentView.bounds.width, height: CGFloat.greatestFiniteMagnitude))
-        return size
-    }
     
+    // Элементы интерфейса
     private let titleButton: UIButton = {
         let button = UIButton(type: .custom)
         button.titleLabel?.font = UIFont(name: "SFProText-Medium", size: 16)
+        button.titleLabel?.numberOfLines = 0
         button.tintColor = .customWhite
         button.contentHorizontalAlignment = .left
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +60,7 @@ final class TaskTableViewCell: UITableViewCell {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 8
-        stack.alignment = .leading
+        stack.alignment = .top
         stack.distribution = .fill
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
@@ -84,10 +83,15 @@ final class TaskTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupIn(stack: textStackView, views: titleButton, descriptionLabel, dateLabel)
-        setupIn(stack: cellStackView, views: statusMarkImage, textStackView)
         
-        setupViews(cellStackView)
+        contentView.addSubview(cellStackView)
+        cellStackView.addArrangedSubview(statusMarkImage)
+        cellStackView.addArrangedSubview(textStackView)
+        
+        textStackView.addArrangedSubview(titleButton)
+        textStackView.addArrangedSubview(descriptionLabel)
+        textStackView.addArrangedSubview(dateLabel)
+        
         setupConstraints()
     }
     
@@ -95,13 +99,13 @@ final class TaskTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-
+    
     func configure(withTask task: ToDoTask) {
         currentTask = task
         isCompleted = task.isCompleted
         titleButton.setTitle(task.title, for: .normal)
         descriptionLabel.text = task.taskDescription ?? " "
-        dateLabel.text = formattedDate(task.date)
+        dateLabel.text = formattedDate(task.date ?? Date())
         updateUI()
     }
     
@@ -115,43 +119,20 @@ final class TaskTableViewCell: UITableViewCell {
         guard let task = currentTask else { return }
         StorageManager.shared.update(task, withNewStatus: isCompleted)
     }
-}
-
-// MARK: - Setup UI
-extension TaskTableViewCell {
-    private func setupViews(_ views: UIView...) {
-        views.forEach { view in
-            contentView.addSubview(view)
-        }
-    }
-    
-    private func setupIn(stack: UIStackView, views: UIView...) {
-        views.forEach { view in
-            stack.addArrangedSubview(view)
-        }
-    }
     
     private func setupConstraints() {
-        let heightAnchor = dateLabel.heightAnchor.constraint(equalToConstant: 14.5)
-        
-        // анимированное изменение значения констрейнта
-//        UIView.animate {
-//            heightAnchor.constant = 18
-//        }
-        
-        NSLayoutConstraint.activate([
+        let constraints = [
             cellStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
             cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
             cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            
+            titleButton.heightAnchor.constraint(equalToConstant: 24),
             
             statusMarkImage.widthAnchor.constraint(equalToConstant: 24),
-            statusMarkImage.widthAnchor.constraint(equalTo: statusMarkImage.heightAnchor),
-            
-            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-
-            titleButton.heightAnchor.constraint(equalToConstant: 24),
-            heightAnchor
-        ])
+            statusMarkImage.heightAnchor.constraint(equalToConstant: 24)
+        ]
+        NSLayoutConstraint.activate(constraints)
     }
     
     private func updateUI() {
@@ -178,11 +159,10 @@ extension TaskTableViewCell {
         dateLabel.layer.opacity = otherOpacity
     }
     
-    private func formattedDate(_ date: Date?) -> String {
-        guard let date else { return "" }
+    private func formattedDate(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yy"
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
         return dateFormatter.string(from: date)
     }
 }
-
