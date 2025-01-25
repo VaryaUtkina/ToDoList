@@ -19,9 +19,8 @@ final class TaskListViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = 106
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.register(TaskTableViewCell.self, forCellReuseIdentifier: "TasksCell")
-        tableView.register(TaskTableViewCell.self, forCellReuseIdentifier: "playerCell")
         return tableView
     }()
     
@@ -75,6 +74,8 @@ final class TaskListViewController: UIViewController {
         return searchController.isActive && !searchBarIsEmpty
     }
     
+    
+    //в loadView перевести всю верстку
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
