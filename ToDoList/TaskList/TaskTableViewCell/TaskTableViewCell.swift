@@ -7,11 +7,8 @@
 
 import UIKit
 
-import UIKit
-
 final class TaskTableViewCell: UITableViewCell {
     
-    // Элементы интерфейса
     private let titleButton: UIButton = {
         let button = UIButton(type: .custom)
         button.titleLabel?.font = UIFont(name: "SFProText-Medium", size: 16)

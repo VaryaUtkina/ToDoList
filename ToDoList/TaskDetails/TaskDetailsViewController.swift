@@ -23,7 +23,7 @@ protocol TaskDetailsViewOutputProtocol {
 final class TaskDetailsViewController: UIViewController {
     
     // MARK: - UI Components
-    private lazy var taskTitleTF: UITextField = {
+    private let taskTitleTF: UITextField = {
         let text = UITextField()
         text.placeholder = "Новая задача"
         text.borderStyle = .roundedRect
@@ -31,11 +31,12 @@ final class TaskDetailsViewController: UIViewController {
         text.font = UIFont(name: "SFProText-Bold", size: 34)
         text.backgroundColor = .clear
         text.textColor = .customWhite
+        text.borderStyle = .none
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
     
-    private lazy var taskDateLabel: UILabel = {
+    private let taskDateLabel: UILabel = {
         let label = UILabel()
         label.text = "Дата"
         label.font = UIFont(name: "SFProText-Regular", size: 12)
@@ -45,7 +46,7 @@ final class TaskDetailsViewController: UIViewController {
         return label
     }()
     
-    private lazy var taskDescriptionTV: UITextView = {
+    private let taskDescriptionTV: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = .clear
         textView.textColor = .customWhite
@@ -72,16 +73,14 @@ final class TaskDetailsViewController: UIViewController {
 
     // MARK: - ViewController Life Cycle
     override func viewDidLoad() {
-        super.viewDidLoad()
         view.backgroundColor = .screen
-        
-        configurator.configure(with: self, and: task)
-        presenter.showTask()
         
         add(subviews: taskTitleTF, taskDateLabel, taskDescriptionTV)
         setupConstraints()
-        
         setupNavBar()
+        
+        configurator.configure(with: self, and: task)
+        presenter.showTask()
     }
     
     // MARK: - Private Methods
@@ -124,20 +123,12 @@ private extension TaskDetailsViewController {
                 taskTitleTF.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
                 taskTitleTF.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
                 taskTitleTF.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-                taskTitleTF.heightAnchor.constraint(equalToConstant: 42.5)
-            ]
-        )
-        
-        NSLayoutConstraint.activate(
-            [
+                taskTitleTF.heightAnchor.constraint(equalToConstant: 42.5),
+            
                 taskDateLabel.topAnchor.constraint(equalTo: taskTitleTF.bottomAnchor, constant: 8),
                 taskDateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-                taskDateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
-            ]
-        )
-        
-        NSLayoutConstraint.activate(
-            [
+                taskDateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+          
                 taskDescriptionTV.topAnchor.constraint(equalTo: taskDateLabel.bottomAnchor, constant: 16),
                 taskDescriptionTV.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
                 taskDescriptionTV.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),

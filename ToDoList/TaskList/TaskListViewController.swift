@@ -75,7 +75,6 @@ final class TaskListViewController: UIViewController {
     }
     
     
-    //в loadView перевести всю верстку
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,8 +87,8 @@ final class TaskListViewController: UIViewController {
         
         setupConstraints()
         setupNavBar()
-        
         setupSearchController()
+        
         createTempData { [unowned self] in
             fetchData()
         }
